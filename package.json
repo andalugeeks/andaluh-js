@@ -1,0 +1,37 @@
+{
+  "name": "@andalugeeks/andaluh",
+  "version": "1.1.0",
+  "description": "andaluh-js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "lint": "tslint --project \"./tsconfig.json\"",
+    "test": "mocha --require ts-node/register test/**/*.ts",
+    "docs": "typedoc --out docs src",
+    "gh-pages": "rimraf docs && npm run docs && gh-pages -d docs"
+  },
+  "homepage": "https://github.com/andalugeeks/andaluh-js#readme",
+  "author": {
+    "name": "Eduardo Amador Patón",
+    "email": "eamadorpaton@gmail.com",
+    "url": "https://andalugeeks.com"
+  },
+  "license": "GPLv3",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.24",
+    "chai": "^4.2.0",
+    "gh-pages": "^2.0.1",
+    "mocha": "^5.2.0",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "pre-commit": "^1.2.2",
+    "xregexp": "^4.2.4"
+  }
+}
