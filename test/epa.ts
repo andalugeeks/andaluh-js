@@ -6,7 +6,7 @@
  * - J. Félix Ontañón <felixonta@gmail.com>
  */
 
-var EPA = require('../src/index').default;
+var EPA = require('../src/transcripts/epa').default;
 var expect = require('chai').expect;
 
 describe('Andalugeeks - EPA transcription Tests', () => {
