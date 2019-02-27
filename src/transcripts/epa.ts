@@ -8,16 +8,6 @@
  * 
  * Dev notes:
  * - Negative lookaheads/lookbehinds (used in andaluh-py) are only supported from ECMASCRIPT 2018 onwards (only supported in latest chrome)
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation version 3 of the License.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 var xregexp = require('xregexp');
@@ -153,7 +143,7 @@ export default class EPA {
         text = this.sub(
             text,
             this.xRegExp('([\\p{L}])?(h)(ua)', 'gi'), 
-            (match, prev_char, h_char, ua_chars) => { // TODO: recover replace_with_case for original expression
+            (match, prev_char, h_char, ua_chars) => {
                 if (prev_char && prev_char.toLowerCase() === 'c') {
                     return match;
                 }
