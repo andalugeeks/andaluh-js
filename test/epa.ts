@@ -115,8 +115,8 @@ describe('Andalugeeks - EPA transcription Tests', () => {
 
     it('should pass exception_rules', () => {
         expect(
-            epa.exception_rules('biêmmandao mârrotâh mirrayâ as biêmmeçabe clown')
-        ).to.equal('bienmandao mârrotâh mîrrayâ âh bienmeçabe claun');
+            epa.exception_rules('muy biêmmandao mârrotâh mirrayâ as biêmmeçabe clown')
+        ).to.equal('mu bienmandao mârrotâh mîrrayâ âh bienmeçabe claun');
     });
 
     it('should pass word_interaction_rules', () => {
