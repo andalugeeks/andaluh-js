@@ -1,6 +1,6 @@
 /**
  * Copyleft (c) 2018-2019 Andalugeeks
- * 
+ *
  * Authors:
  * - Eduardo Amador <eamadorpaton@gmail.com>
  */

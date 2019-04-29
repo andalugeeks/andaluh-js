@@ -1,13 +1,13 @@
 /**
  * Copyleft (c) 2018-2019 Andalugeeks
- * 
+ *
  * Authors:
  * - Eduardo Amador <eamadorpaton@gmail.com>
  * - J. Félix Ontañón <felixonta@gmail.com>
  */
 
-var EPA = require('../src/transcripts/epa').default;
-var expect = require('chai').expect;
+import EPA from '../src/transcripts/epa';
+import { expect } from 'chai';
 
 describe('Andalugeeks - EPA transcription Tests', () => {
     const epa = new EPA();
@@ -23,10 +23,10 @@ describe('Andalugeeks - EPA transcription Tests', () => {
         'Venid todos a correr en anorak de visón a Cádiz con actitud y maldad, para escuchar el tríceps de Albéniz tocar ápud con virtud de laúd.': 'Benîh tôh a corrêh en anorâh de biçón a Cádî con âttitûh y mardá, pa êccuxâh er tríçê de Arbénî tocâh ápû con birtûh de laûh.',
         'Una comida fabada con fado, y sin descuido será casada y amarrada al acolchado roido.': 'Una comida fabada con fado, y çin dêccuido çerá caçá y amarrá al acorxao roío.',
         'Los SABuesos ChiHuaHUA comían cacaHuETes, FramBuESas y Heno, ¡y HABLAN ESPANGLISH!': 'Lô ÇAGueçô XiGuaGUA comían cacaGuETê, FramBuEÇâ y Eno, ¡y ABLAN ÊPPANGLÎ!'
-    }
+    };
 
-    for (let key of Object.keys(transcriptionsTest)) {
-        it('should transcipt "'+ key.substring(0, 20) + '..." correctly', () => {
+    for (const key of Object.keys(transcriptionsTest)) {
+        it('should transcipt "' + key.substring(0, 20) + '..." correctly', () => {
             expect(epa.transcript(key)).to.equal(transcriptionsTest[key]);
         });
     }
@@ -62,10 +62,10 @@ describe('Andalugeeks - EPA transcription Tests', () => {
     });
 
     it('should pass gj_rules', () => {
-        // exceptions 
+        // exceptions
         expect(epa.gj_rules('gin jazz gin jet')).to.equal('yin yâh yin yêh');
         // G,J + vowel replacement
-        expect(epa.gj_rules('ages sausages ají exagerado jerónimo aajo')).to.equal('ahes sausahes ahí exaherado herónimo aaho');
+        expect(epa.gj_rules('ages sausages ají exagerado jerónimo aajo ajonjolí')).to.equal('ahes sausahes ahí exaherado herónimo aaho ahonholí');
         // GUE,GUI,GÜE,GÜI replacement
         expect(epa.gj_rules('ague agUÍ aGUe agUÍ agÜe agüÍ aGÜe ÂgüÍ')).to.equal('age agÍ aGe agÍ agUe aguÍ aGUe ÂguÍ');
         // bueno  => gueno
@@ -74,15 +74,14 @@ describe('Andalugeeks - EPA transcription Tests', () => {
         expect(epa.gj_rules('abuelo / sabueso')).to.equal('aguelo / sagueso');
     });
 
-
     it('should pass v_rules', () => {
         // exceptions
-        expect(epa.v_rules('vis vis ves')).to.equal('bî bî bêh');
+        expect(epa.v_rules('vis vis ves visavis')).to.equal('bî bî bêh bisabis');
         expect(epa.v_rules('envidia')).to.equal('embidia');
     });
 
     it('should pass ll_rules', () => {
-        expect(epa.ll_rules('llanto Llanta llAnta lLAnta')).to.equal('yanto Yanta yAnta yAnta');
+        expect(epa.ll_rules('llanto Llanta llAnta lLAnta llaRLla')).to.equal('yanto Yanta yAnta yAnta yaRYa');
     });
 
     it('should pass l_rules', () => {
@@ -107,11 +106,10 @@ describe('Andalugeeks - EPA transcription Tests', () => {
         // solsticio / superstición / cárstico
         expect(epa.digraph_rules('solsticio superstición cárstico')).to.equal('sortticio superttición cárttico');
 
-        expect(epa.digraph_rules('aerotransporte translado transcendente')).to.equal('aerotrâpporte trâl-lado trâccendente'); 
+        expect(epa.digraph_rules('aerotransporte translado transcendente')).to.equal('aerotrâpporte trâl-lado trâccendente');
 
-        expect(epa.digraph_rules('abstracto adscrito perspectiva')).to.equal('âttrâtto âccrito perppêttiva'); 
+        expect(epa.digraph_rules('abstracto adscrito perspectiva')).to.equal('âttrâtto âccrito perppêttiva');
     });
-
 
     it('should pass exception_rules', () => {
         expect(
@@ -122,6 +120,5 @@ describe('Andalugeeks - EPA transcription Tests', () => {
     it('should pass word_interaction_rules', () => {
         expect(epa.word_interaction_rules('el betis el çol ôl con el zoo')).to.equal('er betis er çol ôr con er zoo');
     });
-
 
   });
