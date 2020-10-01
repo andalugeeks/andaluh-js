@@ -133,5 +133,3 @@ describe('Andalugeeks - EPA transcription Tests', () => {
     });
 
 });
-
-console.log(lemarioArr[0])
