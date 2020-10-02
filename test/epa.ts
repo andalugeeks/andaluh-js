@@ -6,7 +6,7 @@
  * - J. Félix Ontañón <felixonta@gmail.com>
  */
 
-import EPA from '../src/transcripts/epa';
+import EPA, { VAF, VVF } from '../src/transcripts/epa';
 import { expect } from 'chai';
 import { readFileSync, } from 'fs';
 import { resolve } from 'path';
@@ -27,12 +27,23 @@ describe('Andalugeeks - EPA transcription Tests', () => {
         'En la postmodernidad, el transcurso de los transportes y translados en postoperatorios transcienden a la postre unas postillas postpalatales apostilladas se transfieren': 'En la pômmodênnidá, er trâccurço de lô trâpportê y trâl-láô en pôttoperatoriô trâççienden a la pôttre unâ pôttiyâ pôppalatalê apôttiyâh çe trâffieren',
         'Venid todos a correr en anorak de visón a Cádiz con actitud y maldad, para escuchar el tríceps de Albéniz tocar ápud con virtud de laúd.': 'Benîh tôh a corrêh en anorâh de biçón a Cádî con âttitûh y mardá, pa êccuxâh er tríçê de Arbénî tocâh ápû con birtûh de laûh.',
         'Una comida fabada con fado, y sin descuido será casada y amarrada al acolchado roido.': 'Una comida fabada con fado, y çin dêccuido çerá caçá y amarrá al acorxao roío.',
-        'Los SABuesos ChiHuaHUA comían cacaHuETes, FramBuESas y Heno, ¡y HABLAN ESPANGLISH!': 'Lô ÇAGueçô XiGuaGUA comían cacaGuETê, FramBuEÇâ y Eno, ¡y ABLAN ÊPPANGLÎ!'
+        'Los SABuesos ChiHuaHUA comían cacaHuETes, FramBuESas y Heno, ¡y HABLAN ESPANGLISH!': 'Lô ÇAGueçô XiGuaGUA comían cacaGuETê, FramBuEÇâ y Eno, ¡y ABLAN ÊPPANGLÎ!',
+    };
+
+    const testScapeLinks = {
+        'Oye hermano @miguel, la web HTTPS://andaluh.es no sale en google.es pero si en http://google.com #porqueseñor': 'Oye ermano @miguel, la wêh HTTPS://andaluh.es no çale en google.es pero çi en http://google.com #porqueseñor',
+        'Bienvenidos al Siglo XXI a los nuevos integrantes @Karlos_30 y @usuario2342 #bienvenida #saludos': 'Biembeníô ar Çiglo XXI a lô nuebô integrantê @Karlos_30 y @usuario2342 #bienvenida #saludos'
     };
 
     for (const key of Object.keys(transcriptionsTest)) {
         it('should transcipt "' + key.substring(0, 20) + '..." correctly', () => {
             expect(epa.transcript(key)).to.equal(transcriptionsTest[key]);
+        });
+    }
+
+    for (const key of Object.keys(testScapeLinks)) {
+        it('should transcipt "' + key.substring(0, 20) + '..." correctly', () => {
+            expect(epa.transcript(key, VAF, VVF, true)).to.equal(testScapeLinks[key]);
         });
     }
 

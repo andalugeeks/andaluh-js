@@ -76,7 +76,7 @@ export const WORDEND_S_RULES_EXCEPT = {
 }
 
 export const WORDEND_CONST_RULES_EXCEPT = {
-    'al': 'al', 'cual': 'cuâ', 'del': 'del', 'dél': 'dél', 'el':'el', 'él':'èl', 'tal': 'tal', 'bil': 'bîl',
+    'al': 'al', 'cual': 'cuâ', 'del': 'del', 'dél': 'dél', 'el': 'el', 'él': 'èl', 'tal': 'tal', 'bil': 'bîl',
     // TODO: uir = huir. Maybe better to add the exceptions on h_rules?
     'por': 'por', 'uir': 'huîh',
     // sic, tac
@@ -89,7 +89,7 @@ export const WORDEND_D_INTERVOWEL_RULES_EXCEPT = {
     // Ending with -ado
     'fado': 'fado', 'cado': 'cado', 'nado': 'nado', 'priado': 'priado',
     // Ending with -ada
-    'fabada': 'fabada', 'fabadas':'fabadas', 'fada': 'fada', 'ada': 'ada', 'lada': 'lada', 'rada': 'rada',
+    'fabada': 'fabada', 'fabadas': 'fabadas', 'fada': 'fada', 'ada': 'ada', 'lada': 'lada', 'rada': 'rada',
     // Ending with -adas
     'adas': 'adas', 'radas': 'radas', 'nadas': 'nadas',
     // Ending with -ido
@@ -100,20 +100,41 @@ export const WORDEND_D_INTERVOWEL_RULES_EXCEPT = {
 
 export const ENDING_RULES_EXCEPTION = {
     // Exceptions to digraph rules with nm
-    'biêmmandao':'bienmandao', 'biêmmeçabe':'bienmeçabe', 'buêmmoço':'buenmoço', 'çiêmmiléçima':'çienmiléçima', 'çiêmmiléçimo':'çienmiléçimo', 'çiêmmilímetro':'çienmilímetro', 'çiêmmiyonéçima':'çienmiyonéçima', 'çiêmmiyonéçimo':'çienmiyonéçimo', 'çiêmmirmiyonéçima':'çienmirmiyonéçima', 'çiêmmirmiyonéçimo':'çienmirmiyonéçimo',
+    'biêmmandao': 'bienmandao', 'biêmmeçabe': 'bienmeçabe', 'buêmmoço': 'buenmoço', 'çiêmmiléçima': 'çienmiléçima', 'çiêmmiléçimo': 'çienmiléçimo', 'çiêmmilímetro': 'çienmilímetro', 'çiêmmiyonéçima': 'çienmiyonéçima', 'çiêmmiyonéçimo': 'çienmiyonéçimo', 'çiêmmirmiyonéçima': 'çienmirmiyonéçima', 'çiêmmirmiyonéçimo': 'çienmirmiyonéçimo',
     // Exceptions to l rules
-    'marrotadôh':'mârrotadôh', 'marrotâh':'mârrotâh', 'mirrayâ':'mîrrayâ',
+    'marrotadôh': 'mârrotadôh', 'marrotâh': 'mârrotâh', 'mirrayâ': 'mîrrayâ',
     // Exceptions to psico pseudo rules
-    'herôççiquiatría':'heroçiquiatría', 'herôççiquiátrico':'heroçiquiátrico', 'farmacôççiquiatría':'farmacoçiquiatría', 'metempçícoçî':'metemçícoçî', 'necróçico':'necróççico', 'pampçiquîmmo':'pamçiquîmmo',
+    'herôççiquiatría': 'heroçiquiatría', 'herôççiquiátrico': 'heroçiquiátrico', 'farmacôççiquiatría': 'farmacoçiquiatría', 'metempçícoçî': 'metemçícoçî', 'necróçico': 'necróççico', 'pampçiquîmmo': 'pamçiquîmmo',
     // Other exceptions
-    'antîççerôttármico':'antiçerôttármico', 'eclampçia':'eclampçia', 'pôttoperatorio':'pôççoperatorio', 'çáccrito':'çánccrito', 'manbîh':'mambîh', 'cômmelináçeo':'commelináçeo', 'dîmmneçia':'dînneçia', 'todo': 'tó', 'todô': 'tôh', 'toda': 'toa', 'todâ': 'toâ',
+    'antîççerôttármico': 'antiçerôttármico', 'eclampçia': 'eclampçia', 'pôttoperatorio': 'pôççoperatorio', 'çáccrito': 'çánccrito', 'manbîh': 'mambîh', 'cômmelináçeo': 'commelináçeo', 'dîmmneçia': 'dînneçia', 'todo': 'tó', 'todô': 'tôh', 'toda': 'toa', 'todâ': 'toâ',
     // Other exceptions monosyllables
-    'as':'âh', 'clown':'claun', 'crack':'crâh', 'down':'daun', 'es':'êh', 'ex':'êh', 'ir':'îh', 'miss':'mîh', 'muy':'mu', 'ôff':'off', 'os':'ô', 'para':'pa', 'ring':'rin', 'rock':'rôh', 'spray':'êppray', 'sprint':'êpprín', 'wa':'gua'
+    'as': 'âh', 'clown': 'claun', 'crack': 'crâh', 'down': 'daun', 'es': 'êh', 'ex': 'êh', 'ir': 'îh', 'miss': 'mîh', 'muy': 'mu', 'ôff': 'off', 'os': 'ô', 'para': 'pa', 'ring': 'rin', 'rock': 'rôh', 'spray': 'êppray', 'sprint': 'êpprín', 'wa': 'gua'
 }
 
 export default class EPA {
 
     private xRegExp = xregexp;
+
+    private tags = [];
+
+    ignore_rules = (text: string) => {
+        const patterns = [
+            /(https?:\/\/)?(?:www\.)?(?:[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6})/gi,
+            this.xRegExp('(?:@([\\p{L}])+)', 'gi'),
+            this.xRegExp('(?:#([\\p{L}])+)', 'gi'),
+            /(?=\b[MCDXLVI]{1,8}\b)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})/g,
+        ];
+
+        return patterns.reduce((text, pattern) => {
+            const matches = text.match(pattern);
+            if (matches) {
+                const randomInt = Math.floor(Math.random() * 999999999).toString();
+                matches.forEach(match => this.tags.push([randomInt, match]));
+                return text.replace(pattern, randomInt);
+            }
+            return text;
+        }, text);
+    };
 
     h_rules = (text: string) => {
         // chihuahua => chiguagua
@@ -130,7 +151,7 @@ export default class EPA {
             .replace(
                 this.xRegExp(matchWholeWordFromSubexpression('(?<!c)(h)'), 'gi'),
                 (word) => {
-                    if (word && H_RULES_EXCEPT[word.toLowerCase()]) {
+                    if (word && H_RULES_EXCEPT[word.toLowerCase()]) {
                         return keep_case(word, H_RULES_EXCEPT[word.toLowerCase()]);
                     }
 
@@ -235,7 +256,7 @@ export default class EPA {
         return text
             .replace(
                 this.xRegExp('(c(?=e|i|é|í|ê|î)|z|s)(a|e|i|o|u|á|é|í|ó|ú|Á|É|Í|Ó|Ú|â|ê|î|ô|û|Â|Ê|Î|Ô|Û)', 'gi'),
-                (_, cons_char, suffix) => keep_case(cons_char, vaf) +  suffix
+                (_, cons_char, suffix) => keep_case(cons_char, vaf) + suffix
             );
     }
 
@@ -277,7 +298,7 @@ export default class EPA {
                 case 'ídos':
                     return prefix + get_vowel_tilde(suffix_vowel_a) + get_vowel_circumflex(suffix_vowel_b);
                 case 'ido':
-                case'ído':
+                case 'ído':
                     return prefix + keep_case(suffix_vowel_a, 'í') + suffix_vowel_b;
                 default:
                     return word;
@@ -356,7 +377,7 @@ export default class EPA {
                 this.xRegExp('(a|e|i|o|u|á|é|í|ó|ú)(b|d|n|r)(s)(b|c|ç|d|f|g|h|j|k|l|m|n|p|q|s|t|v|w|x|y|z)', 'gi'),
                 (_, vowel_char, cons_char, s_char, digraph_char) => {
                     const isrs = cons_char.toLowerCase() === 'r' && s_char.toLowerCase() === 's';
-                    return  (isrs ? vowel_char + cons_char : get_vowel_circumflex(vowel_char)) + digraph_char.repeat(2);
+                    return (isrs ? vowel_char + cons_char : get_vowel_circumflex(vowel_char)) + digraph_char.repeat(2);
                 }
             )
             // atlántico => âl-lántico | orla => ôl-la | adlátere => âl-látere | tesla => têl-la ...
@@ -387,7 +408,13 @@ export default class EPA {
         );
     }
 
-    transcript = (text: string, vaf = VAF, vvf = VVF) => {
+    transcript = (text: string, vaf = VAF, vvf = VVF, scapeLinks = false) => {
+        let substitutedText = text;
+
+        if (scapeLinks) {
+            substitutedText = this.ignore_rules(text);
+        }
+
         const rules = [
             this.h_rules,
             this.x_rules,
@@ -404,11 +431,13 @@ export default class EPA {
             this.word_interaction_rules
         ];
 
-        return rules.reduce((text, rule) => {
-            if (rule === this.x_rules) return this.x_rules(text, vaf);
-            if (rule === this.vaf_rules) return this.vaf_rules(text, vaf);
-            if (rule === this.gj_rules) return this.gj_rules(text, vvf);
-            return  rule(text);
-        }, text);
+        const finalText = rules.reduce((substitutedText, rule) => {
+            if (rule === this.x_rules) return this.x_rules(substitutedText, vaf);
+            if (rule === this.vaf_rules) return this.vaf_rules(substitutedText, vaf);
+            if (rule === this.gj_rules) return this.gj_rules(substitutedText, vvf);
+            return rule(substitutedText);
+        }, substitutedText);
+
+        return this.tags.reduce((text, tags) => text.replace(tags[0], tags[1]), finalText);
     }
 }
