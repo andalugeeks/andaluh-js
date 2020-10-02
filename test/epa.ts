@@ -8,6 +8,11 @@
 
 import EPA, { VAF, VVF } from '../src/transcripts/epa';
 import { expect } from 'chai';
+import { readFileSync, } from 'fs';
+import { resolve } from 'path';
+import { csvToArray } from './util';
+const lemarioCsv = readFileSync(resolve(__dirname, 'lemario.csv'), 'utf-8');
+const lemarioArr = csvToArray(lemarioCsv, ',', false);
 
 describe('Andalugeeks - EPA transcription Tests', () => {
     const epa = new EPA();
@@ -41,6 +46,12 @@ describe('Andalugeeks - EPA transcription Tests', () => {
             expect(epa.transcript(key, VAF, VVF, true)).to.equal(testScapeLinks[key]);
         });
     }
+
+    lemarioArr.forEach(line => {
+        it(`should transcript ${line[0]} correctly`, () => {
+            expect(epa.transcript(line[0])).to.equal(line[1]);
+        });
+    });
 
     it('should pass h_rules', () => {
         // rule 1
