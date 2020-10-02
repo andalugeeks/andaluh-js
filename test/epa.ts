@@ -46,6 +46,7 @@ describe('Andalugeeks - EPA transcription Tests', () => {
             expect(epa.transcript(key, VAF, VVF, true)).to.equal(testScapeLinks[key]);
         });
     }
+
     lemarioArr.forEach(line => {
         it(`should transcript ${line[0]} correctly`, () => {
             expect(epa.transcript(line[0])).to.equal(line[1]);
