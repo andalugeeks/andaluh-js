@@ -169,7 +169,7 @@ export default class EPA {
             // If the /ks/ sound is between vowels
             // Axila => Aççila | Éxito => Éççito
             .replace(
-                this.xRegExp('(a|e|i|o|u|á|é|í|ó|ú)(x)(a|e|i|o|u|á|é|í|ó|ú)', 'gi'),
+                this.xRegExp('(a|e|i|o|u|á|é|í|ó|ú)(x)(a|e|i|o|u|y|á|é|í|ó|ú)', 'gi'),
                 (_, prev_char, x_char, next_char) => get_vowel_circumflex(prev_char) + keep_case(x_char, vaf).repeat(2) + next_char
             )
             // Every word starting with /ks/

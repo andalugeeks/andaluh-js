@@ -32,7 +32,8 @@ describe('Andalugeeks - EPA transcription Tests', () => {
 
     const testScapeLinks = {
         'Oye hermano @miguel, la web HTTPS://andaluh.es no sale en google.es pero si en http://google.com #porqueseñor': 'Oye ermano @miguel, la wêh HTTPS://andaluh.es no çale en google.es pero çi en http://google.com #porqueseñor',
-        'Bienvenidos al Siglo XXI a los nuevos integrantes @Karlos_30 y @usuario2342 #bienvenida #saludos': 'Biembeníô ar Çiglo XXI a lô nuebô integrantê @Karlos_30 y @usuario2342 #bienvenida #saludos'
+        'Bienvenidos al Siglo XXI a los nuevos integrantes @Karlos_30 y @usuario2342 #bienvenida #saludos': 'Biembeníô ar Çiglo XXI a lô nuebô integrantê @Karlos_30 y @usuario2342 #bienvenida #saludos',
+        'El otro día ConoCí a UNa seXY señorita': 'El otro día ConoÇí a UNa çêÇÇY çeñorita'
     };
 
     for (const key of Object.keys(transcriptionsTest)) {
