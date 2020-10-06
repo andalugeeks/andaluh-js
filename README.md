@@ -7,6 +7,7 @@ Transliterate español (spanish) spelling to andaluz proposals
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Publishing](#publishing)
 - [Support](#support)
 - [Contributing](#contributing)
 
@@ -25,7 +26,10 @@ $ npm install @andalugeeks/andaluh --save
 
 ## Usage
 
+First, install dependencies with `npm install`. Then use `tsc CLI` to build the distribution `/dist` folder with `tsc`.
+
 ### Javascript
+
 ```javascript
 const EPA = require('@andalugeeks/andaluh').epa;
 const andaluhEPA = new EPA();
@@ -33,12 +37,25 @@ console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz card
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
 ### TypeScript
+
+You can simply use:
+
 ```typescript
 import EPA from '@andalugeeks/andaluh';
 var andaluhEPA = new EPA();
 console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
+
+## Publishing
+
+To submit a package to npm registry (as `npmjs`), use `tsc` (typescript CLI) to build the distribution folder `/dist`, then:
+
+```shell
+$ npm publish
+```
+
+Consider to upgrade the major/minor/patch version before submitting a new package (edit `package.json`). Also remember to login with npm on your registry account before publishing.
 
 ## Roadmap
 
