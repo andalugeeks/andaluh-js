@@ -76,7 +76,7 @@ export const WORDEND_S_RULES_EXCEPT = {
 }
 
 export const WORDEND_CONST_RULES_EXCEPT = {
-    'al': 'al', 'cual': 'cuâ', 'del': 'del', 'dél': 'dél', 'el': 'el', 'él': 'èl', 'tal': 'tal', 'bil': 'bîl',
+    'al': 'al', 'cual': 'cuâ', 'del': 'del', 'dél': 'dél', 'el': 'el', 'él': 'él', 'tal': 'tal', 'bil': 'bîl',
     // TODO: uir = huir. Maybe better to add the exceptions on h_rules?
     'por': 'por', 'uir': 'huîh',
     // sic, tac
