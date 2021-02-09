@@ -7,7 +7,9 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "lint": "tslint --project \"./tsconfig.json\"",
-    "test": "mocha --require ts-node/register test/**/*.ts",
+    "test:all": "mocha --require ts-node/register test/**/*.ts",
+    "test:lemario": "mocha --require ts-node/register test/**/lemario.ts",
+    "test": "mocha --require ts-node/register test/**/epa.ts",
     "docs": "typedoc --out docs src",
     "gh-pages": "rimraf docs && npm run docs && gh-pages -d docs"
   },
