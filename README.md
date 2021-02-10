@@ -47,6 +47,25 @@ console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz card
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
 
+## Running tests
+
+For running the basic tests, use 
+
+```shell
+$ npm test
+```
+
+For running the tests based in a manual transcripted csv (some of them are expected to fail), run
+```shell
+$ npm run test:lemario
+```
+
+For running the full suite, use
+```shell
+$ npm run test:all
+```
+
+
 ## Publishing
 
 To submit a package to npm registry (as `npmjs`), use `tsc` (typescript CLI) to build the distribution folder `/dist`, then:
