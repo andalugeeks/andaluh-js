@@ -2,6 +2,8 @@
 
 Google Apps Script implementation for [andaluh-js](https://github.com/andalugeeks/andaluh-js). Transliterate español (spanish) spelling to andaluz proposals.
 
+<img width="800" alt="andaluh-gs about" src="https://github.com/andalugeeks/andaluh-js/raw/google-apps-script/img/andaluh-gs.png?raw=true">
+
 ## Table of Contents
 
 - [Description](#description)
