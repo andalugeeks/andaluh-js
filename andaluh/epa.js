@@ -174,7 +174,7 @@ var EPA = /** @class */ (function () {
             // G,J + vowel replacement
             return text
                 // Replacing /x/ (voiceless postalveolar fricative) with /h/
-                .replace(/\b(\w*?)(g(?=e|i|é|í)|j)(a|e|i|o|u|á|é|í|ó|ú)(\w*?)\b/gi, function (word) {
+                .replace(/(\S*)(g(?=e|i|é|í)|j)(a|e|i|o|u|á|é|í|ó|ú)(\S*)/gi, function (word) {
                 if (GJ_RULES_EXCEPT[word.toLowerCase()]) {
                     return keep_case(word, GJ_RULES_EXCEPT[word.toLowerCase()]);
                 }
