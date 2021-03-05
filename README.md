@@ -1,15 +1,13 @@
-# Andaluh-gs
+# Andaluh-js
 
-Google Apps Script implementation for [andaluh-js](https://github.com/andalugeeks/andaluh-js). Transliterate español (spanish) spelling to andaluz proposals.
-
-<img width="800" alt="andaluh-gs about" src="https://github.com/andalugeeks/andaluh-js/raw/google-apps-script/img/andaluh-gs.png?raw=true">
+Transliterate español (spanish) spelling to andaluz proposals
 
 ## Table of Contents
 
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Roadmap](#roadmap)
+- [Publishing](#publishing)
 - [Support](#support)
 - [Contributing](#contributing)
 
@@ -21,34 +19,31 @@ This package introduces transliteration functions to convert *español* (spanish
 
 ## Installation
 
-Just upload the `andalu/*js` files into your Google Apps Script project, or automate with Google Apps Script `clasp` tool. The benefit of the second approach is you can keep developing locally your `andaluh-gs` based project instead of using the Google Apps Script web IDE.
-
+From NPM repository
 ```
-$ npm install -g @google/clasp
-```
-
-Install the google apps script type definitions as well:
-
-```
-$ npm i -S @types/google-apps-script
-```
-
-Login and push!
-
-```
-$ clasp login
-$ clasp push
+$ npm install @andalugeeks/andaluh --save
 ```
 
 ## Usage
 
-Have a look at the following snippet
+First, install dependencies with `npm install`.
 
 ```javascript
-const andaluhEPA = new EPA();
+const andaluh = require('@andalugeeks/andaluh');
+const andaluhEPA = new andaluh.EPA();
 console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
+
+## Publishing
+
+To submit a package to npm registry (as `npmjs`):
+
+```shell
+$ npm publish
+```
+
+Consider to upgrade the major/minor/patch version before submitting a new package (edit `package.json`). Also remember to login with npm on your registry account before publishing.
 
 ## Roadmap
 
@@ -57,6 +52,7 @@ console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz card
 * Silent /h/ sounds spelling rules pending to be implemented.
 * Some spelling intervowel /d/ rules are still pending to be implemented.
 * Transliteration rules for some consonant ending words still pending to be implemented.
+* The andaluh EPA group is still deliberating about the 'k' letter.
 
 ## Support
 

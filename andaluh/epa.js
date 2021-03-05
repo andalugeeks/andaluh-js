@@ -7,13 +7,17 @@
  *
  */
 
+"use strict";
+exports.__esModule = true;
+var util = require("./util");
 // EPA character for Voiceless alveolar fricative /s/ https://en.wikipedia.org/wiki/Voiceless_alveolar_fricative
-VAF = 'ç';
+exports.VAF = 'ç';
+
 // EPA character for Voiceless velar fricative /x/ https://en.wikipedia.org/wiki/Voiceless_velar_fricative
-VVF = 'h';
+exports.VVF = 'h';
 
 // Digraphs producers. (vowel)(const)(const) that triggers the general digraph rule
-DIGRAPHS = [
+exports.DIGRAPHS = [
     'bb', 'bc', 'bç', 'bÇ', 'bd', 'bf', 'bg', 'bh', 'bm', 'bn', 'bp', 'bq', 'bt', 'bx', 'by', 'cb', 'cc',
     'cç', 'cÇ', 'cd', 'cf', 'cg', 'ch', 'cm', 'cn', 'cp', 'cq', 'ct', 'cx', 'cy',
     'db', 'dc', 'dç', 'dÇ', 'dd', 'df', 'dg', 'dh', 'dl', 'dm', 'dn', 'dp', 'dq', 'dt', 'dx', 'dy',
@@ -31,30 +35,30 @@ DIGRAPHS = [
     'zb', 'zc', 'zç', 'zÇ', 'zd', 'zf', 'zg', 'zh', 'zl', 'zm', 'zn', 'zp', 'zq', 'zr', 'zt', 'zx', 'zy'
 ];
 
-H_RULES_EXCEPT = {
+exports.H_RULES_EXCEPT = {
     'haz': 'âh', 'hez': 'êh', 'hoz': 'ôh',
     'oh': 'ôh',
     'yihad': 'yihá',
     'h': 'h' // Keep an isolated h as-is
 };
 
-GJ_RULES_EXCEPT = {
+exports.GJ_RULES_EXCEPT = {
     'gin': 'yin', 'jazz': 'yâh', 'jet': 'yêh'
 };
 
-V_RULES_EXCEPT = {
+exports.V_RULES_EXCEPT = {
     'vis': 'bî', 'ves': 'bêh'
 };
 
-LL_RULES_EXCEPT = {
+exports.LL_RULES_EXCEPT = {
     'grill': 'grîh'
 };
 
-WORDEND_D_RULES_EXCEPT = {
+exports.WORDEND_D_RULES_EXCEPT = {
     'çed': 'çêh'
 };
 
-WORDEND_S_RULES_EXCEPT = {
+exports.WORDEND_S_RULES_EXCEPT = {
     'bies': 'biêh', 'bis': 'bîh', 'blues': 'blû', 'bus': 'bûh',
     'dios': 'diôh', 'dos': 'dôh',
     'gas': 'gâh', 'gres': 'grêh', 'gris': 'grîh',
@@ -66,7 +70,7 @@ WORDEND_S_RULES_EXCEPT = {
     'tos': 'tôh', 'tres': 'trêh', 'tris': 'trîh'
 };
 
-WORDEND_CONST_RULES_EXCEPT = {
+exports.WORDEND_CONST_RULES_EXCEPT = {
     'al': 'al', 'cual': 'cuâ', 'del': 'del', 'dél': 'dél', 'el': 'el', 'él': 'él', 'tal': 'tal', 'bil': 'bîl',
     // TODO: uir = huir. Maybe better to add the exceptions on h_rules?
     'por': 'por', 'uir': 'huîh',
@@ -76,7 +80,7 @@ WORDEND_CONST_RULES_EXCEPT = {
     'stop': 'êttôh', 'bip': 'bip'
 };
 
-WORDEND_D_INTERVOWEL_RULES_EXCEPT = {
+exports.WORDEND_D_INTERVOWEL_RULES_EXCEPT = {
     // Ending with -ado
     'fado': 'fado', 'cado': 'cado', 'nado': 'nado', 'priado': 'priado',
     // Ending with -ada
@@ -89,7 +93,7 @@ WORDEND_D_INTERVOWEL_RULES_EXCEPT = {
     'laido': 'laido', 'libido': 'libido', 'nido': 'nido', 'nucleido': 'nucleido', 'çonido': 'çonido', 'çuido': 'çuido'
 };
 
-ENDING_RULES_EXCEPTION = {
+exports.ENDING_RULES_EXCEPTION = {
     // Exceptions to digraph rules with nm
     'biêmmandao': 'bienmandao', 'biêmmeçabe': 'bienmeçabe', 'buêmmoço': 'buenmoço', 'çiêmmiléçima': 'çienmiléçima', 'çiêmmiléçimo': 'çienmiléçimo', 'çiêmmilímetro': 'çienmilímetro', 'çiêmmiyonéçima': 'çienmiyonéçima', 'çiêmmiyonéçimo': 'çienmiyonéçimo', 'çiêmmirmiyonéçima': 'çienmirmiyonéçima', 'çiêmmirmiyonéçimo': 'çienmirmiyonéçimo',
     // Exceptions to l rules
@@ -134,101 +138,101 @@ var EPA = /** @class */ (function () {
             return text
             .replace(/([\\p{L}])?(?<!c)(h)(ua)/gi, function (_, prev_char, h_char, ua_chars) {
                 if (prev_char === void 0) { prev_char = ''; }
-                return prev_char + keep_case(h_char, 'g') + ua_chars;
+                return prev_char + util.keep_case(h_char, 'g') + ua_chars;
             })
             // cacahuete => cacagûete
             .replace(/([\\p{L}])?(?<!c)(h)(u)(e)/gi, function (_, prev_char, h_char, u_char, e_char) {
                 if (prev_char === void 0) { prev_char = ''; }
-                return prev_char + keep_case(h_char, 'g') + keep_case(u_char, 'ü') + e_char;
+                return prev_char + util.keep_case(h_char, 'g') + util.keep_case(u_char, 'ü') + e_char;
             })
             // General /h/ replacements
             .replace(/\b(\w*?)(h)(\S*?)\b/gi, function (word) {
-              if (word && H_RULES_EXCEPT[word.toLowerCase()]) {
-                  return keep_case(word, H_RULES_EXCEPT[word.toLowerCase()]);
+              if (word && exports.H_RULES_EXCEPT[word.toLowerCase()]) {
+                  return util.keep_case(word, exports.H_RULES_EXCEPT[word.toLowerCase()]);
               }
               return word.replace(/(?<!c)(h)(\S?)/gi, function (_, h_char, next_char) {
-                return keep_case(h_char, next_char);
+                return util.keep_case(h_char, next_char);
               });
             });
         };
 
         this.x_rules = function (text, vaf) {
-            if (vaf === void 0) { vaf = VAF; }
+            if (vaf === void 0) { vaf = exports.VAF; }
             // Replacement rules for /ks/ with EPA VAF
             return text
                 // If the /ks/ sound is between vowels
                 // Axila => Aççila | Éxito => Éççito
-                .replace(/(a|e|i|o|u|á|é|í|ó|ú)(x)(a|e|i|o|u|y|á|é|í|ó|ú)/gi, function (_, prev_char, x_char, next_char) { return get_vowel_circumflex(prev_char) + keep_case(x_char, vaf).repeat(2) + next_char; })
+                .replace(/(a|e|i|o|u|á|é|í|ó|ú)(x)(a|e|i|o|u|y|á|é|í|ó|ú)/gi, function (_, prev_char, x_char, next_char) { return util.get_vowel_circumflex(prev_char) + util.keep_case(x_char, vaf).repeat(2) + next_char; })
                 // Every word starting with /ks/
                 // Xilófono roto => Çilófono roto
-                .replace(/\b(?<!á|é|í|ó|ú|Á|É|Í|Ó|Ú)(x)/gi, function (x_char) { return keep_case(x_char, vaf); });
+                .replace(/\b(?<!á|é|í|ó|ú|Á|É|Í|Ó|Ú)(x)/gi, function (x_char) { return util.keep_case(x_char, vaf); });
         };
 
         this.ch_rules = function (text) {
             // Replacement rules for /∫/ (voiceless postalveolar fricative)
-            return text.replace(/ch/gi, function (match) { return keep_case(match[0], 'x'); });
+            return text.replace(/ch/gi, function (match) { return util.keep_case(match[0], 'x'); });
         };
 
         this.gj_rules = function (text, vvf) {
-            if (vvf === void 0) { vvf = VVF; }
+            if (vvf === void 0) { vvf = exports.VVF; }
             // G,J + vowel replacement
             return text
                 // Replacing /x/ (voiceless postalveolar fricative) with /h/
-                .replace(/\b(\w*?)(g(?=e|i|é|í)|j)(a|e|i|o|u|á|é|í|ó|ú)(\w*?)\b/gi, function (word) {
-                if (GJ_RULES_EXCEPT[word.toLowerCase()]) {
-                    return keep_case(word, GJ_RULES_EXCEPT[word.toLowerCase()]);
+                .replace(/(\S*)(g(?=e|i|é|í)|j)(a|e|i|o|u|á|é|í|ó|ú)(\S*)/gi, function (word) {
+                if (exports.GJ_RULES_EXCEPT[word.toLowerCase()]) {
+                    return util.keep_case(word, exports.GJ_RULES_EXCEPT[word.toLowerCase()]);
                 }
-                return word.replace(/(g(?=e|i|é|í)|j)(a|e|i|o|u|á|é|í|ó|ú)/gi, function (_, jg_cons, vowel) { return keep_case(jg_cons, vvf) + vowel; });
+                return word.replace(/(g(?=e|i|é|í)|j)(a|e|i|o|u|á|é|í|ó|ú)/gi, function (_, jg_cons, vowel) { return util.keep_case(jg_cons, vvf) + vowel; });
                 })
                 // GUE,GUI replacement
                 .replace(/(g)u(e|i|é|í)/gi, '$1$2')
                 // GÜE,GÜI replacement
-                .replace(/(g)(ü)(e|i|é|í)/gi, function (_, g_char, middle_u, vowel) { return g_char + keep_case(middle_u, 'u') + vowel; })
+                .replace(/(g)(ü)(e|i|é|í)/gi, function (_, g_char, middle_u, vowel) { return g_char + util.keep_case(middle_u, 'u') + vowel; })
                 // bueno / abuelo / sabues => gueno / aguelo / sagues
-                .replace(/(b)(uen)/gi, function (_, b_char, suffix) { return keep_case(b_char, 'g') + suffix; })
-                .replace(/(s|a)?(?<!m)(b)(ue)(l|s)/gi, function (_, sa, b, ue, cons) { return sa + keep_case(b, 'g') + ue + cons; });
+                .replace(/(b)(uen)/gi, function (_, b_char, suffix) { return util.keep_case(b_char, 'g') + suffix; })
+                .replace(/(s|a)?(?<!m)(b)(ue)(l|s)/gi, function (_, sa, b, ue, cons) { return sa + util.keep_case(b, 'g') + ue + cons; });
         };
 
         this.v_rules = function (text) {
             return text
                 // NV -> NB -> MB (i.e.: envidia -> embidia)
-                .replace(/nv/gi, function (chars) { return keep_case(chars[0], 'm') + keep_case(chars[1], 'b'); })
+                .replace(/nv/gi, function (chars) { return util.keep_case(chars[0], 'm') + util.keep_case(chars[1], 'b'); })
                 // v -> b
                 .replace(/\b(\S*)(v)(\S*)\b/gi, function (word) {
-                if (V_RULES_EXCEPT[word.toLowerCase()]) {
-                    return keep_case(word, V_RULES_EXCEPT[word.toLowerCase()]);
+                if (exports.V_RULES_EXCEPT[word.toLowerCase()]) {
+                    return util.keep_case(word, exports.V_RULES_EXCEPT[word.toLowerCase()]);
                 }
-                return word.replace(/v/gi, function (word) { return keep_case(word, 'b'); });
+                return word.replace(/v/gi, function (word) { return util.keep_case(word, 'b'); });
             });
         };
 
         this.ll_rules = function (text) {
             // Replacing /ʎ/ (digraph ll) with Greek Y for /ʤ/ sound (voiced postalveolar affricate)
             return text.replace(/\b(\w*?)(l)(l)(\w*?)\b/gi, function (word) {
-                if (LL_RULES_EXCEPT[word.toLowerCase()]) {
-                    return keep_case(word, LL_RULES_EXCEPT[word.toLowerCase()]);
+                if (exports.LL_RULES_EXCEPT[word.toLowerCase()]) {
+                    return util.keep_case(word, exports.LL_RULES_EXCEPT[word.toLowerCase()]);
                 }
-                return word.replace(/ll/gi, function (word) { return keep_case(word, 'y'); });
+                return word.replace(/ll/gi, function (word) { return util.keep_case(word, 'y'); });
             });
         };
 
         this.l_rules = function (text) {
             // Rotating /l/ with /r/
-            return text.replace(/(l)(b|c|ç|g|s|d|f|g|h|k|m|p|q|r|t|x|z)/gi, function (_, l_char, suffix) { return keep_case(l_char, 'r') + suffix; });
+            return text.replace(/(l)(b|c|ç|g|s|d|f|g|h|k|m|p|q|r|t|x|z)/gi, function (_, l_char, suffix) { return util.keep_case(l_char, 'r') + suffix; });
         };
 
         //TODO: Keep case.
         this.psico_pseudo_rules = function (text) {
             return text.replace(/(psic|psiq|pseud)/gi, function (_, syllabe) {
-              return keep_case(syllabe[0], syllabe[1]) + syllabe.slice(2, syllabe.length)
+              return util.keep_case(syllabe[0], syllabe[1]) + syllabe.slice(2, syllabe.length)
             });
         };
 
         // Replacing Voiceless alveolar fricative (vaf) /s/ /θ/ with EPA's ç/Ç
         this.vaf_rules = function (text, vaf) {
-            if (vaf === void 0) { vaf = VAF; }
+            if (vaf === void 0) { vaf = exports.VAF; }
             return text
-                .replace(/(c(?=e|i|é|í|ê|î)|z|s)(a|e|i|o|u|á|é|í|ó|ú|Á|É|Í|Ó|Ú|â|ê|î|ô|û|Â|Ê|Î|Ô|Û)/gi, function (_, cons_char, suffix) { return keep_case(cons_char, vaf) + suffix; });
+                .replace(/(c(?=e|i|é|í|ê|î)|z|s)(a|e|i|o|u|á|é|í|ó|ú|Á|É|Í|Ó|Ú|â|ê|î|ô|û|Â|Ê|Î|Ô|Û)/gi, function (_, cons_char, suffix) { return util.keep_case(cons_char, vaf) + suffix; });
         };
 
         this.word_ending_rules = function (text) {
@@ -251,26 +255,26 @@ var EPA = /** @class */ (function () {
             var contain_vocal_tilde = function (string) { return new RegExp(/á|é|í|ó|ú/gi).test(string); };
 
             var replace_intervowel_d_end_with_case = function (word, prefix, suffix_vowel_a, suffix_d_char, suffix_vowel_b, ending_s) {
-                if (WORDEND_D_INTERVOWEL_RULES_EXCEPT[word.toLowerCase()]) {
-                    return keep_case(word, WORDEND_D_INTERVOWEL_RULES_EXCEPT[word.toLowerCase()]);
+                if (exports.WORDEND_D_INTERVOWEL_RULES_EXCEPT[word.toLowerCase()]) {
+                    return util.keep_case(word, exports.WORDEND_D_INTERVOWEL_RULES_EXCEPT[word.toLowerCase()]);
                 }
                 if (contain_vocal_tilde(prefix))
                     return word;
                 var suffix = suffix_vowel_a + suffix_d_char + suffix_vowel_b + ending_s;
                 switch (suffix.toLowerCase()) {
                     case 'ada':
-                        return prefix + keep_case(suffix_vowel_b, 'á');
+                        return prefix + util.keep_case(suffix_vowel_b, 'á');
                     case 'adas':
-                        return prefix + keep_case(suffix.substring(0, 2), get_vowel_circumflex(suffix[0]) + 'h');
+                        return prefix + util.keep_case(suffix.substring(0, 2), util.get_vowel_circumflex(suffix[0]) + 'h');
                     case 'ado':
                         return prefix + suffix_vowel_a + suffix_vowel_b;
                     case 'ados':
                     case 'idos':
                     case 'ídos':
-                        return prefix + get_vowel_tilde(suffix_vowel_a) + get_vowel_circumflex(suffix_vowel_b);
+                        return prefix + util.get_vowel_tilde(suffix_vowel_a) + util.get_vowel_circumflex(suffix_vowel_b);
                     case 'ido':
                     case 'ído':
-                        return prefix + keep_case(suffix_vowel_a, 'í') + suffix_vowel_b;
+                        return prefix + util.keep_case(suffix_vowel_a, 'í') + suffix_vowel_b;
                     default:
                         return word;
                 }
@@ -280,14 +284,14 @@ var EPA = /** @class */ (function () {
                 //  Leave as it is. There shouldn't be any word with -eps ending withough accent.
                 if (!contain_vocal_tilde(prefix))
                     return prefix + suffix_vowel + suffix_const;
-                return prefix + keep_case(suffix_vowel, 'ê');
+                return prefix + util.keep_case(suffix_vowel, 'ê');
             };
 
             var replace_d_end_with_case = function (match, prefix, suffix_vowel, suffix_const) {
                 var word = prefix + suffix_vowel + suffix_const;
 
-                if (WORDEND_D_RULES_EXCEPT[word.toLowerCase()]) {
-                    var and_word = keep_case(word, WORDEND_D_RULES_EXCEPT[word.toLowerCase()]);
+                if (exports.WORDEND_D_RULES_EXCEPT[word.toLowerCase()]) {
+                    var and_word = util.keep_case(word, exports.WORDEND_D_RULES_EXCEPT[word.toLowerCase()]);
                     return match.replace(word, and_word);
                 }
 
@@ -299,14 +303,14 @@ var EPA = /** @class */ (function () {
                     return match.replace(word, prefix + stressed_rules[suffix_vowel]);
                 }
 
-                return match.replace(word, prefix + stressed_rules[suffix_vowel] + keep_case(suffix_const, 'h'));
+                return match.replace(word, prefix + stressed_rules[suffix_vowel] + util.keep_case(suffix_const, 'h'));
             };
 
             var replace_s_end_with_case = function (match, prefix, suffix_vowel, suffix_const) {
                 var word = prefix + suffix_vowel + suffix_const;
 
-                if (WORDEND_S_RULES_EXCEPT[word.toLowerCase()]) {
-                    var and_word = keep_case(word, WORDEND_S_RULES_EXCEPT[word.toLowerCase()]);
+                if (exports.WORDEND_S_RULES_EXCEPT[word.toLowerCase()]) {
+                    var and_word = util.keep_case(word, exports.WORDEND_S_RULES_EXCEPT[word.toLowerCase()]);
                     return match.replace(word, and_word);
                 }
 
@@ -314,21 +318,21 @@ var EPA = /** @class */ (function () {
                     return match.replace(word, prefix + repl_rules[suffix_vowel]);
                 }
 
-                return match.replace(word, prefix + repl_rules[suffix_vowel] + keep_case(suffix_const, 'h'));
+                return match.replace(word, prefix + repl_rules[suffix_vowel] + util.keep_case(suffix_const, 'h'));
             };
 
             var replace_const_end_with_case = function (match, prefix, suffix_vowel, suffix_const) {
                 var word = prefix + suffix_vowel + suffix_const;
 
-                if (WORDEND_CONST_RULES_EXCEPT[word.toLowerCase()]) {
-                    var and_word = keep_case(word, WORDEND_CONST_RULES_EXCEPT[word.toLowerCase()]);
+                if (exports.WORDEND_CONST_RULES_EXCEPT[word.toLowerCase()]) {
+                    var and_word = util.keep_case(word, exports.WORDEND_CONST_RULES_EXCEPT[word.toLowerCase()]);
                     return match.replace(word, and_word);
                 }
 
                 if (contain_vocal_tilde(prefix)) {
                     return match.replace(word, prefix + repl_rules[suffix_vowel]);
                 }
-                return match.replace(word, prefix + repl_rules[suffix_vowel] + keep_case(suffix_vowel, 'h'));
+                return match.replace(word, prefix + repl_rules[suffix_vowel] + util.keep_case(suffix_vowel, 'h'));
             };
 
             return text
@@ -340,39 +344,39 @@ var EPA = /** @class */ (function () {
         };
 
         this.digraph_rules = function (text) {
-          var digraphs = DIGRAPHS.join('|');
+          var digraphs = exports.DIGRAPHS.join('|');
           var rDigraphs = new RegExp('(a|e|i|o|u|á|é|í|ó|ú)(' + digraphs + ')', 'gi');
 
           return text
               // intersticial / solsticio / superstición / cárstico => interttiçiâh / çorttiçio / çuperttiçión / cárttico
               .replace(/(a|e|i|o|u|á|é|í|ó|ú)(l|r)s(t)/gi, function (_, vowel_char, lr_char, t_char) { 
-                return vowel_char + (lr_char.toLowerCase() === 'l' ? keep_case(lr_char, 'r') : lr_char) + t_char + t_char; })
+                return vowel_char + (lr_char.toLowerCase() === 'l' ? util.keep_case(lr_char, 'r') : lr_char) + t_char + t_char; })
               // aerotransporte => aerotrâpporte | translado => trâl-lao | transcendente => trâççendente | postpalatal => pôppalatal
               .replace(/(tr|p)(a|o)(?:ns|st)(b|c|ç|d|f|g|h|j|k|l|m|n|p|q|s|t|v|w|x|y|z)/gi, function (_, init_char, vowel_char, cons_char) { 
-                return init_char + get_vowel_circumflex(vowel_char) + cons_char + (cons_char.toLowerCase() === 'l' ? '-' : '') + cons_char; })
+                return init_char + util.get_vowel_circumflex(vowel_char) + cons_char + (cons_char.toLowerCase() === 'l' ? '-' : '') + cons_char; })
               // abstracto => âttrâtto | adscrito => âccrito | perspectiva => pêrppêttiba
               .replace(/(a|e|i|o|u|á|é|í|ó|ú)(b|d|n|r)(s)(b|c|ç|d|f|g|h|j|k|l|m|n|p|q|s|t|v|w|x|y|z)/gi, function (_, vowel_char, cons_char, s_char, digraph_char) {
                 var isrs = cons_char.toLowerCase() === 'r' && s_char.toLowerCase() === 's';
-                return (isrs ? vowel_char + cons_char : get_vowel_circumflex(vowel_char)) + digraph_char.repeat(2);
+                return (isrs ? vowel_char + cons_char : util.get_vowel_circumflex(vowel_char)) + digraph_char.repeat(2);
               })
               // atlántico => âl-lántico | orla => ôl-la | adlátere => âl-látere | tesla => têl-la ...
               .replace(/(a|e|i|o|u|á|é|í|ó|ú)(?:d|j|r|s|t|x|z)(l)/gi, function (_, vowel_char, digraph_char) { 
-                return get_vowel_circumflex(vowel_char) + digraph_char + '-' + digraph_char; 
+                return util.get_vowel_circumflex(vowel_char) + digraph_char + '-' + digraph_char; 
               })
               // General digraph rules
               .replace(rDigraphs, function (_, vowel_char, digraph_chars) { 
-                return get_vowel_circumflex(vowel_char) + digraph_chars[1].repeat(2); 
+                return util.get_vowel_circumflex(vowel_char) + digraph_chars[1].repeat(2); 
               })
             ;
         };
 
         this.exception_rules = function (text) {
-          var exceptions = Object.keys(ENDING_RULES_EXCEPTION).join('|');
+          var exceptions = Object.keys(exports.ENDING_RULES_EXCEPTION).join('|');
           var rExceptions = new RegExp('(?=|$|[^\\p{L}])(' + exceptions + ')(?=^|$|[^\\p{L}])', 'giu');
 
           // Set of exceptions to the replacement algorithm
           return text.replace(rExceptions, function (word) {
-            return keep_case(word, ENDING_RULES_EXCEPTION[word.toLowerCase()]);
+            return util.keep_case(word, exports.ENDING_RULES_EXCEPTION[word.toLowerCase()]);
           });
         };
 
@@ -380,13 +384,13 @@ var EPA = /** @class */ (function () {
         this.word_interaction_rules = function (text) {
           // Rotating word ending /l/ with /r/ if first next word char is non-r consonant
           return text.replace(/\b(\w*?)(l)(\s)(b|c|ç|d|f|g|h|j|k|l|m|n|ñ|p|q|s|t|v|w|x|y|z)/gi, function (_, prefix, l_char, whitespace_char, suffix) {
-            return prefix + keep_case(l_char, 'r') + whitespace_char + suffix; 
+            return prefix + util.keep_case(l_char, 'r') + whitespace_char + suffix; 
           });
         };
 
         this.transcript = function (text, vaf, vvf, scapeLinks, debug=false) {
-            if (vaf === void 0) { vaf = VAF; }
-            if (vvf === void 0) { vvf = VVF; }
+            if (vaf === void 0) { vaf = exports.VAF; }
+            if (vvf === void 0) { vvf = exports.VVF; }
             if (scapeLinks === void 0) { scapeLinks = false; }
 
             var substitutedText = text;
@@ -430,3 +434,4 @@ var EPA = /** @class */ (function () {
     }
     return EPA;
 }());
+exports["EPA"] = EPA;

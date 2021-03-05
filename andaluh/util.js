@@ -7,6 +7,8 @@
  *
  */
 
+"use strict";
+
 function isUpperCase(str) {
     return str.toUpperCase() === str;
 }
@@ -36,25 +38,29 @@ function keep_case(word, replacement_word) {
 }
 
 // Useful to calculate the circumflex equivalents.
-VOWELS_ALL_NOTILDE = 'aeiouâêîôûAEIOUÂÊÎÔÛ';
-VOWELS_ALL_TILDE = 'áéíóúâêîôûÁÉÍÓÚÂÊÎÔÛ';
+exports.VOWELS_ALL_NOTILDE = 'aeiouâêîôûAEIOUÂÊÎÔÛ';
+exports.VOWELS_ALL_TILDE = 'áéíóúâêîôûÁÉÍÓÚÂÊÎÔÛ';
 
 function get_vowel_tilde(vowel) {
-    var i = VOWELS_ALL_NOTILDE.indexOf(vowel);
+    var i = exports.VOWELS_ALL_NOTILDE.indexOf(vowel);
     // If no tilde, replace with circumflex
     if (vowel && i !== -1)
-        return VOWELS_ALL_TILDE[i];
-    if (VOWELS_ALL_TILDE.includes(vowel))
+        return exports.VOWELS_ALL_TILDE[i];
+    if (exports.VOWELS_ALL_TILDE.includes(vowel))
         return vowel;
     console.error('Not a vowel', vowel);
 }
 
 function get_vowel_circumflex(vowel) {
-    var i = VOWELS_ALL_NOTILDE.indexOf(vowel);
+    var i = exports.VOWELS_ALL_NOTILDE.indexOf(vowel);
     // If no tilde, replace with circumflex
     if (vowel && i !== -1)
-        return VOWELS_ALL_NOTILDE[i + 5];
-    if (VOWELS_ALL_TILDE.includes(vowel))
+        return exports.VOWELS_ALL_NOTILDE[i + 5];
+    if (exports.VOWELS_ALL_TILDE.includes(vowel))
         return vowel;
     console.error('Not supported');
 }
+
+exports["keep_case"] = keep_case;
+exports["get_vowel_tilde"] = get_vowel_tilde;
+exports["get_vowel_circumflex"] = get_vowel_circumflex;

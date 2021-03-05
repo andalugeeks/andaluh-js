@@ -1,0 +1,126 @@
+"use strict";
+/**
+ * Copyleft (c) 2018-2019 Andalugeeks
+ *
+ * Authors:
+ * - Eduardo Amador <eamadorpaton@gmail.com>
+ * - J. Félix Ontañón <felixonta@gmail.com>
+ */
+
+var andaluh = require("../andaluh/epa");
+var chai = require("chai");
+
+describe('Andalugeeks - EPA transcription Tests', function () {
+    var epa = new andaluh.EPA();
+
+    var transcriptionsTest = {
+        'Todo Xenomorfo dice: [haber], que el Éxito y el éxtasis asfixian, si no eres un xilófono Chungo.': 'Tó Çenomorfo diçe: [abêh], que el Éççito y el éttaçî âffîççian, çi no erê un çilófono Xungo.',
+        'Lleva un Guijarrito el ABuelo, ¡Qué Bueno! ¡para la VERGÜENZA!.': 'Yeba un Giharrito el AGuelo, ¡Qué Gueno! ¡pa la BERGUENÇA!.',
+        'VALLA valla, si vas toda de ENVIDIA.': 'BAYA baya, çi bâ toa de EMBIDIA.',
+        'Alrededor de la Alpaca había un ALfabeto ALTIVO de valkirias malnacidas.': 'Arrededôh de la Arpaca abía un ARfabeto ARTIBO de barkiriâ mânnaçidâ.',
+        'En la Zaragoza y el Japón asexual se Sabía SÉriamente sILBAR con el COxis.': 'En la Çaragoça y er Hapón açêççuâh çe Çabía ÇÉriamente çIRBÂH con er CÔççî.',
+        'Transportandonos a la connotación perspicaz del abstracto solsticio de Alaska, el aislante plástico adsorvente asfixió al aMnésico pseudoescritor granadino de constituciones, para ConMemorar broncas adscritas.': 'Trâpportandonô a la cônnotaçión perppicâh del âttrâtto çorttiçio de Alâkka, el aîl-lante pláttico âççorbente âffîççió al ânnéçico çeudoêccritôh granadino de côttituçionê, pa CôMMemorâh broncâ âccritâ.',
+        'En la postmodernidad, el transcurso de los transportes y translados en postoperatorios transcienden a la postre unas postillas postpalatales apostilladas se transfieren.': 'En la pômmodênnidá, er trâccurço de lô trâpportê y trâl-láô en pôttoperatoriô trâççienden a la pôttre unâ pôttiyâ pôppalatalê apôttiyâh çe trâffieren.',
+        'Venid todos a correr en anorak de visón a Cádiz con actitud y maldad, para escuchar el tríceps de Albéniz tocar ápud con virtud de laúd.': 'Benîh tôh a corrêh en anorâh de biçón a Cádî con âttitûh y mardá, pa êccuxâh er tríçê de Arbénî tocâh ápû con birtûh de laûh.',
+        'Una comida fabada con fado, y sin descuido será casada y amarrada al acolchado roido.': 'Una comida fabada con fado, y çin dêccuido çerá caçá y amarrá al acorxao roío.',
+        'Los SABuesos ChiHuaHUA comían cacaHuETes, FramBuESas y Heno sobre la mampara, ¡y HABLAN ESPANGLISH!.': 'Lô ÇAGueçô XiGuaGUA comían cacaGuETê, FramBuEÇâ y Eno çobre la mampara, ¡y ABLAN ÊPPANGLÎ!.',
+    };
+    
+    var testScapeLinks = {
+        'Oye hermano @miguel, la web HTTPS://andaluh.es no sale en google.es pero si en http://google.com #porqueseñor.': 'Oye ermano @miguel, la wêh HTTPS://andaluh.es no çale en google.es pero çi en http://google.com #porqueseñor.',
+        'Bienvenidos al Siglo XXI a los nuevos integrantes @Kárlos_30 y @usûario2342 #bienvenida #saludos.': 'Biembeníô ar Çiglo XXI a lô nuebô integrantê @Kárlos_30 y @usûario2342 #bienvenida #saludos.',
+        'El otro día ConoCí a UNa seXY señorita.': 'El otro día ConoÇí a UNa çêÇÇY çeñorita.'
+    };
+
+    var _loop_1 = function (key) {
+        it('should transcipt "' + key.substring(0, 20) + '..." correctly', function () {
+            chai.expect(epa.transcript(key)).to.equal(transcriptionsTest[key]);
+        });
+    };
+    for (var _i = 0, _a = Object.keys(transcriptionsTest); _i < _a.length; _i++) {
+        var key = _a[_i];
+        _loop_1(key);
+    }
+    var _loop_2 = function (key) {
+        it('should transcipt "' + key.substring(0, 20) + '..." correctly', function () {
+            chai.expect(epa.transcript(key, epa.VAF, epa.VVF, true)).to.equal(testScapeLinks[key]);
+        });
+    };
+    for (var _b = 0, _c = Object.keys(testScapeLinks); _b < _c.length; _b++) {
+        var key = _c[_b];
+        _loop_2(key);
+    }
+
+    it('should pass h_rules', function () {
+        // rule 1
+        chai.expect(epa.h_rules('chihuahua chua hua')).to.equal('chiguagua chua gua');
+        // rule 2
+        chai.expect(epa.h_rules('acahuete chueca hueco')).to.equal('acagüete chueca güeco');
+        // rule 3
+        chai.expect(epa.h_rules('ahora hora hazahí hay habrá haz hez')).to.equal('aora ora azaí ay abrá âh êh');
+    });
+    it('should pass x_rules', function () {
+        // rule 1
+        chai.expect(epa.x_rules('Xilófono roto')).to.equal('Çilófono roto');
+        // rule 2
+        chai.expect(epa.x_rules('Axila Éxito')).to.equal('Âççila Éççito');
+        // rule 3
+        chai.expect(epa.x_rules('p xi xhin xino exquisito ex Éxito')).to.equal('p çi çhin çino exquisito ex Éççito');
+        // test VAF -> z
+        chai.expect(epa.x_rules('p xi xhin xino exquisito ex Éxito', 'z')).to.equal('p zi zhin zino exquisito ex Ézzito');
+        // test VAF -> s
+        chai.expect(epa.x_rules('p xi xhin xino exquisito ex Éxito', 's')).to.equal('p si shin sino exquisito ex Éssito');
+        // test VAF -> h
+        chai.expect(epa.x_rules('p xi xhin xino exquisito ex Éxito', 'h')).to.equal('p hi hhin hino exquisito ex Éhhito');
+    });
+    it('should pass ch_rules', function () {
+        // rule 1
+        chai.expect(epa.ch_rules('hecho hache hachis')).to.equal('hexo haxe haxis');
+    });
+    it('should pass gj_rules', function () {
+        // exceptions
+        chai.expect(epa.gj_rules('gin jazz gin jet')).to.equal('yin yâh yin yêh');
+        // G,J + vowel replacement
+        chai.expect(epa.gj_rules('ages sausages ají exagerado jerónimo aajo ajonjolí')).to.equal('ahes sausahes ahí exaherado herónimo aaho ahonholí');
+        // GUE,GUI,GÜE,GÜI replacement
+        chai.expect(epa.gj_rules('ague agUÍ aGUe agUÍ agÜe agüÍ aGÜe ÂgüÍ')).to.equal('age agÍ aGe agÍ agUe aguÍ aGUe ÂguÍ');
+        // bueno  => gueno
+        chai.expect(epa.gj_rules('bueno')).to.equal('gueno');
+        // abuelo / sabueso / aguelo / sagues
+        chai.expect(epa.gj_rules('abuelo / sabueso')).to.equal('aguelo / sagueso');
+    });
+    it('should pass v_rules', function () {
+        // exceptions
+        chai.expect(epa.v_rules('vis vis ves visavis')).to.equal('bî bî bêh bisabis');
+        chai.expect(epa.v_rules('envidia')).to.equal('embidia');
+    });
+    it('should pass ll_rules', function () {
+        chai.expect(epa.ll_rules('llanto Llanta llAnta lLAnta llaRLla')).to.equal('yanto Yanta yAnta yAnta yaRYa');
+    });
+    it('should pass l_rules', function () {
+        chai.expect(epa.l_rules('elbetis eLCabesa eLçol')).to.equal('erbetis eRCabesa eRçol');
+    });
+    it('should pass psico_pseudo_rules', function () {
+        chai.expect(epa.psico_pseudo_rules('psicóloga PSIcológico pseuDoNimo PSEUDónimo')).to.equal('sicóloga SIcológico seuDoNimo SEUDónimo');
+    });
+    it('should pass vaf_rules', function () {
+        chai.expect(epa.vaf_rules('sazonador zorro saco zoológico cepillo cinturón contról cêhilla zíso sâl')).to.equal('çaçonador çorro çaco çoológico çepillo çinturón contról çêhilla çíço çâl');
+    });
+    it('should pass word_ending_rules', function () {
+        // exceptions
+        chai.expect(epa.word_ending_rules('fado despido cado bûççido')).to.equal('fado despido cado bûççido');
+        chai.expect(epa.word_ending_rules('áeps sonadO sonaDas sáeps saeps enFadADa enfadaDos espío despdo')).to.equal('áeps sonaO sonâh sáê saeps enFadá enfadáô espío despdo');
+    });
+    it('should pass digraph_rules', function () {
+        // solsticio / superstición / cárstico
+        chai.expect(epa.digraph_rules('solsticio superstición cárstico')).to.equal('sortticio superttición cárttico');
+        chai.expect(epa.digraph_rules('aerotransporte translado transcendente')).to.equal('aerotrâpporte trâl-lado trâccendente');
+        chai.expect(epa.digraph_rules('abstracto adscrito perspectiva')).to.equal('âttrâtto âccrito perppêttiva');
+    });
+    it('should pass exception_rules', function () {
+        chai.expect(epa.exception_rules('muy biêmmandao mârrotâh mirrayâ as biêmmeçabe clown')).to.equal('mu bienmandao mârrotâh mîrrayâ âh bienmeçabe claun');
+    });
+    it('should pass word_interaction_rules', function () {
+        chai.expect(epa.word_interaction_rules('el betis el çol ôl con el zoo')).to.equal('er betis er çol ôr con er zoo');
+    });
+});
