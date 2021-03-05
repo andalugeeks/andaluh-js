@@ -30,7 +30,7 @@ First, install dependencies with `npm install`.
 
 ```javascript
 const andaluh = require('@andalugeeks/andaluh');
-const andaluhEPA = new andaluh.EPA();
+const andaluhEPA = new andaluh.default();
 console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
