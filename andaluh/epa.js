@@ -15,7 +15,7 @@ VVF = 'h';
 // Digraphs producers. (vowel)(const)(const) that triggers the general digraph rule
 DIGRAPHS = [
     'bb', 'bc', 'bç', 'bÇ', 'bd', 'bf', 'bg', 'bh', 'bm', 'bn', 'bp', 'bq', 'bt', 'bx', 'by', 'cb', 'cc',
-    'cç', 'cÇ', 'cd', 'cf', 'cg', 'ch', 'cm', 'cn', 'cp', 'cq', 'ct', 'cx', 'cy',
+    'cç', 'cÇ', 'cd', 'cf', 'cg', 'ch', 'cm', 'cn', 'cp', 'cq', 'ct', 'cx', 'cy', 'çt',
     'db', 'dc', 'dç', 'dÇ', 'dd', 'df', 'dg', 'dh', 'dl', 'dm', 'dn', 'dp', 'dq', 'dt', 'dx', 'dy',
     'fb', 'fc', 'fç', 'fÇ', 'fd', 'ff', 'fg', 'fh', 'fm', 'fn', 'fp', 'fq', 'ft', 'fx', 'fy',
     'gb', 'gc', 'gç', 'gÇ', 'gd', 'gf', 'gg', 'gh', 'gm', 'gn', 'gp', 'gq', 'gt', 'gx', 'gy',
@@ -132,23 +132,24 @@ var EPA = /** @class */ (function () {
         this.h_rules = function (text) {
             // chihuahua => chiguagua
             return text
-            .replace(/([\\p{L}])?(?<!c)(h)(ua)/gi, function (_, prev_char, h_char, ua_chars) {
-                if (prev_char === void 0) { prev_char = ''; }
+            .replace(/(c?)(h)(ua|úa|uá)/gi, function (word, prev_char, h_char, ua_chars) {
+                if (prev_char.toLowerCase() === 'c') { return word };
                 return prev_char + keep_case(h_char, 'g') + ua_chars;
             })
             // cacahuete => cacagûete
-            .replace(/([\\p{L}])?(?<!c)(h)(u)(e)/gi, function (_, prev_char, h_char, u_char, e_char) {
-                if (prev_char === void 0) { prev_char = ''; }
+            .replace(/(c?)(h)(u)(e)/gi, function (word, prev_char, h_char, u_char, e_char) {
+                if (prev_char.toLowerCase() === 'c') { return word };
                 return prev_char + keep_case(h_char, 'g') + keep_case(u_char, 'ü') + e_char;
             })
             // General /h/ replacements
             .replace(/\b(\w*?)(h)(\S*?)\b/gi, function (word) {
-              if (word && H_RULES_EXCEPT[word.toLowerCase()]) {
+                if (word && H_RULES_EXCEPT[word.toLowerCase()]) {
                   return keep_case(word, H_RULES_EXCEPT[word.toLowerCase()]);
-              }
-              return word.replace(/(?<!c)(h)(\S?)/gi, function (_, h_char, next_char) {
-                return keep_case(h_char, next_char);
-              });
+                }
+                return word.replace(/(c?)(h)(\S?)/gi, function (word, prev_char, h_char, next_char) {
+                    if (prev_char.toLowerCase() === 'c') { return word };
+                    return keep_case(h_char, next_char);
+                });
             });
         };
 
@@ -161,7 +162,7 @@ var EPA = /** @class */ (function () {
                 .replace(/(a|e|i|o|u|á|é|í|ó|ú)(x)(a|e|i|o|u|y|á|é|í|ó|ú)/gi, function (_, prev_char, x_char, next_char) { return get_vowel_circumflex(prev_char) + keep_case(x_char, vaf).repeat(2) + next_char; })
                 // Every word starting with /ks/
                 // Xilófono roto => Çilófono roto
-                .replace(/\b(?<!á|é|í|ó|ú|Á|É|Í|Ó|Ú)(x)/gi, function (x_char) { return keep_case(x_char, vaf); });
+                .replace(/\b(x)/gi, function (x_char) { return keep_case(x_char, vaf); });
         };
 
         this.ch_rules = function (text) {
@@ -186,7 +187,10 @@ var EPA = /** @class */ (function () {
                 .replace(/(g)(ü)(e|i|é|í)/gi, function (_, g_char, middle_u, vowel) { return g_char + keep_case(middle_u, 'u') + vowel; })
                 // bueno / abuelo / sabues => gueno / aguelo / sagues
                 .replace(/(b)(uen)/gi, function (_, b_char, suffix) { return keep_case(b_char, 'g') + suffix; })
-                .replace(/(s|a)?(?<!m)(b)(ue)(l|s)/gi, function (_, sa, b, ue, cons) { return sa + keep_case(b, 'g') + ue + cons; });
+                .replace(/(s|a)?(m?)(b)(ue)(l|s)/gi, function (word, sa, m, b, ue, cons) {
+                    if (m) { return word };
+                    return sa + keep_case(b, 'g') + ue + cons;
+                });
         };
 
         this.v_rules = function (text) {
@@ -295,7 +299,7 @@ var EPA = /** @class */ (function () {
                     return match.replace(word, prefix + repl_rules[suffix_vowel]);
                 }
 
-                if (['a', 'e', 'A', 'E', 'á', 'é', 'Á', 'É'].includes(suffix_vowel)) {
+                if (['a', 'e', 'A', 'E', 'á', 'é', 'Á', 'É'].indexOf(suffix_vowel) >= 0) {
                     return match.replace(word, prefix + stressed_rules[suffix_vowel]);
                 }
 
@@ -368,6 +372,7 @@ var EPA = /** @class */ (function () {
 
         this.exception_rules = function (text) {
           var exceptions = Object.keys(ENDING_RULES_EXCEPTION).join('|');
+          // FIX giu only works Safari>=v10 Check: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode
           var rExceptions = new RegExp('(?=|$|[^\\p{L}])(' + exceptions + ')(?=^|$|[^\\p{L}])', 'giu');
 
           // Set of exceptions to the replacement algorithm
