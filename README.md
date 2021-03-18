@@ -1,13 +1,15 @@
-# Andaluh-js
+# Andaluh-gs
 
-Transliterate español (spanish) spelling to andaluz proposals
+Google Apps Script implementation for [andaluh-js](https://github.com/andalugeeks/andaluh-js). Transliterate español (spanish) spelling to andaluz proposals.
+
+<img width="800" alt="andaluh-gs about" src="https://github.com/andalugeeks/andaluh-js/raw/google-apps-script/img/andaluh-gs.png?raw=true">
 
 ## Table of Contents
 
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Publishing](#publishing)
+- [Roadmap](#roadmap)
 - [Support](#support)
 - [Contributing](#contributing)
 
@@ -19,62 +21,34 @@ This package introduces transliteration functions to convert *español* (spanish
 
 ## Installation
 
-From NPM repository
+Just upload the `andalu/*js` files into your Google Apps Script project, or automate with Google Apps Script `clasp` tool. The benefit of the second approach is you can keep developing locally your `andaluh-gs` based project instead of using the Google Apps Script web IDE.
+
 ```
-$ npm install @andalugeeks/andaluh --save
+$ npm install -g @google/clasp
+```
+
+Install the google apps script type definitions as well:
+
+```
+$ npm i -S @types/google-apps-script
+```
+
+Login and push!
+
+```
+$ clasp login
+$ clasp push
 ```
 
 ## Usage
 
-First, install dependencies with `npm install`. Then use `tsc CLI` to build the distribution `/dist` folder with `tsc`.
-
-### Javascript
+Have a look at the following snippet
 
 ```javascript
-const EPA = require('@andalugeeks/andaluh').epa;
 const andaluhEPA = new EPA();
 console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
-### TypeScript
-
-You can simply use:
-
-```typescript
-import EPA from '@andalugeeks/andaluh';
-var andaluhEPA = new EPA();
-console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
-// Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
-```
-
-## Running tests
-
-For running the basic tests, use 
-
-```shell
-$ npm test
-```
-
-For running the tests based in a manual transcripted csv (some of them are expected to fail), run
-```shell
-$ npm run test:lemario
-```
-
-For running the full suite, use
-```shell
-$ npm run test:all
-```
-
-
-## Publishing
-
-To submit a package to npm registry (as `npmjs`), use `tsc` (typescript CLI) to build the distribution folder `/dist`, then:
-
-```shell
-$ npm publish
-```
-
-Consider to upgrade the major/minor/patch version before submitting a new package (edit `package.json`). Also remember to login with npm on your registry account before publishing.
 
 ## Roadmap
 
@@ -83,7 +57,6 @@ Consider to upgrade the major/minor/patch version before submitting a new packag
 * Silent /h/ sounds spelling rules pending to be implemented.
 * Some spelling intervowel /d/ rules are still pending to be implemented.
 * Transliteration rules for some consonant ending words still pending to be implemented.
-* The andaluh EPA group is still deliberating about the 'k' letter.
 
 ## Support
 
