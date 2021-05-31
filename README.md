@@ -31,9 +31,9 @@ First, install dependencies with `npm install`. Then use `tsc CLI` to build the 
 ### Javascript
 
 ```javascript
-const EPA = require('@andalugeeks/andaluh').epa;
-const andaluhEPA = new EPA();
-console.log(andaluhEPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
+const andaluh = require('@andalugeeks/andaluh');
+const EPA = new andaluh.EPA();
+console.log(EPA.transcript('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja'));
 // Er belôh murçiélago indú comía felîh cardiyo y kiwi. La çigueña tocaba er çâççofón detrâh der palenque de paha.
 ```
 ### TypeScript
